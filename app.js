@@ -18,8 +18,10 @@ app.use(express.static(path.join(__dirname,'public')));
 app.engine('handlebars', exphbs.engine({ defaultLayout: 'home' }));
 app.set('view engine', 'handlebars');
 
-const mainRoutes = require('./routes/home/main');
-app.use('/',mainRoutes);
+const homeRoutes = require('./routes/home/index');
+const adminRoutes = require('./routes/admin/index');
+app.use('/',homeRoutes);
+app.use('/admin',adminRoutes);
 
 
 
