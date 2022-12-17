@@ -1,7 +1,27 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
 const path = require('path');
 const exphbs = require('express-handlebars');
+const mongoose = require('mongoose');
+const methodOverride = require('method-override');
+
+/**
+ * Use when we get post data from form
+ */
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+/**
+ * Use to connect database
+ */
+mongoose.set('strictQuery', true);
+mongoose.connect('mongodb://localhost:27017/cms').then((result) => {
+    console.log("Mongo DB Connected");
+}).catch((err) => {
+    console.log(err);
+});
+
 
 /**
  * We import path moule in top and write below line
@@ -12,16 +32,24 @@ const exphbs = require('express-handlebars');
 app.use(express.static(path.join(__dirname,'public')));
 
 /**
+ * This is help us to use put method for updating
+ */
+app.use(methodOverride('_method'));
+
+/**
  * Here we setup our layout of file. When we call render function it look
  * into views fodler and goto layout file fetch home file
  */
-app.engine('handlebars', exphbs.engine({ defaultLayout: 'home' }));
+const { select } = require('./helpers/handlebars-helpers');
+app.engine('handlebars', exphbs.engine({ defaultLayout: 'home', helpers:{select:select} }));
 app.set('view engine', 'handlebars');
 
 const homeRoutes = require('./routes/home/index');
 const adminRoutes = require('./routes/admin/index');
+const postsRoutes = require('./routes/admin/posts');
 app.use('/',homeRoutes);
 app.use('/admin',adminRoutes);
+app.use('/admin/posts',postsRoutes);
 
 
 
