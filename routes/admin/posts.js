@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Post = require('../../models/Post');
+const { faker } = require('@faker-js/faker');
+
 
 /**
  * This code is overide default layout. It mean when url with admin
@@ -85,6 +87,23 @@ router.delete('/delete/:id', (req, res) => {
         .then((result) => {
             res.redirect('/admin/posts');
         });
+});
+
+router.get('/generate-fake-data/:amount', (req, res) => {
+    
+    for (let index = 0; index < req.params.amount; index++) {
+        let post = new Post();
+        post.title = faker.name.jobTitle();
+        post.status = 'public';
+        post.allowComments = true;
+        post.body = faker.lorem.sentences();
+
+        post.save().then(savedPost => {
+            res.send('Data Inserted');
+        }).catch(err => {
+            console.log(err);
+        });
+    }
 });
 
 
