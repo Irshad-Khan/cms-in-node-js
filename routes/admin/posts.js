@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const Post = require('../../models/Post');
 const { faker } = require('@faker-js/faker');
+const { isEmpty, uploadDir } = require('../../helpers/upload-helper');
+const fs = require('fs');
+const path = require('path');
+
 
 
 /**
@@ -31,6 +35,15 @@ router.get('/create', (req, res) => {
 
 router.post('/create', (req, res) => {
 
+    let fileName = "default.jpg";
+    if (!isEmpty(req.files)) {
+        let file = req.files.file;
+        fileName = Date.now()+'-'+file.name;
+        file.mv("./public/uploads/" + fileName, (err) => {
+            if (err) throw err; 
+        });
+    }   
+
     let allowComments = true;
     if (req.body.allowComments) {
         allowComments = true;
@@ -43,6 +56,7 @@ router.post('/create', (req, res) => {
         status: req.body.status,
         allowComments: allowComments,
         body: req.body.body,
+        file: fileName,
     });
 
     newPost.save().then((result) => {
@@ -83,9 +97,12 @@ router.put('/edit/:id', (req, res) => {
 });
 
 router.delete('/delete/:id', (req, res) => {
-    Post.deleteOne({ _id: req.params.id })
-        .then((result) => {
-            res.redirect('/admin/posts');
+    Post.findOne({ _id: req.params.id })
+        .then((post) => {
+            fs.unlink(uploadDir + post.file, () => {
+                post.remove();
+                res.redirect('/admin/posts');
+            })
         });
 });
 

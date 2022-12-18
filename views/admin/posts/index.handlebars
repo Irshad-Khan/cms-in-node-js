@@ -3,6 +3,7 @@
     <thead>
         <tr>
             <th scope="col">#</th>
+            <th scope="col">Image</th>
             <th scope="col">Id</th>
             <th scope="col">Title</th>
             <th scope="col">Status</th>
@@ -13,7 +14,8 @@
     <tbody>
         {{#each posts}}
             <tr>
-                <th scope="row">1</th>
+                <th scope="row">{{formatIndex @index }}</th>
+                <th><img width="40" height="40" src="/uploads/{{file}}" alt="Post Image"></th>
                 <td>{{_id}}</td>
                 <td>{{title}}</td>
                 <td>{{status}}</td>

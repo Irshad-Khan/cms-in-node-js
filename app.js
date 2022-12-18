@@ -5,6 +5,7 @@ const path = require('path');
 const exphbs = require('express-handlebars');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
+const fileUpload = require('express-fileupload');
 
 /**
  * Use when we get post data from form
@@ -22,6 +23,10 @@ mongoose.connect('mongodb://localhost:27017/cms').then((result) => {
     console.log(err);
 });
 
+/**
+ * Upload Middleware
+ */
+app.use(fileUpload());
 
 /**
  * We import path moule in top and write below line
@@ -40,8 +45,8 @@ app.use(methodOverride('_method'));
  * Here we setup our layout of file. When we call render function it look
  * into views fodler and goto layout file fetch home file
  */
-const { select } = require('./helpers/handlebars-helpers');
-app.engine('handlebars', exphbs.engine({ defaultLayout: 'home', helpers:{select:select} }));
+const { select,formatIndex } = require('./helpers/handlebars-helpers');
+app.engine('handlebars', exphbs.engine({ defaultLayout: 'home', helpers:{select:select,formatIndex:formatIndex} }));
 app.set('view engine', 'handlebars');
 
 const homeRoutes = require('./routes/home/index');
