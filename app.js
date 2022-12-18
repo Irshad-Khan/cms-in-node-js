@@ -46,7 +46,11 @@ app.use(methodOverride('_method'));
  * into views fodler and goto layout file fetch home file
  */
 const { select,formatIndex } = require('./helpers/handlebars-helpers');
-app.engine('handlebars', exphbs.engine({ defaultLayout: 'home', helpers:{select:select,formatIndex:formatIndex} }));
+const { showError } = require('./helpers/validation-helpers');
+app.engine('handlebars', exphbs.engine({
+    defaultLayout: 'home',
+    helpers: { select: select, formatIndex: formatIndex, showError: showError }
+}));
 app.set('view engine', 'handlebars');
 
 const homeRoutes = require('./routes/home/index');

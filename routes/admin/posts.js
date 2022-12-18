@@ -4,7 +4,6 @@ const Post = require('../../models/Post');
 const { faker } = require('@faker-js/faker');
 const { isEmpty, uploadDir } = require('../../helpers/upload-helper');
 const fs = require('fs');
-const path = require('path');
 
 
 
@@ -35,35 +34,55 @@ router.get('/create', (req, res) => {
 
 router.post('/create', (req, res) => {
 
-    let fileName = "default.jpg";
-    if (!isEmpty(req.files)) {
-        let file = req.files.file;
-        fileName = Date.now()+'-'+file.name;
-        file.mv("./public/uploads/" + fileName, (err) => {
-            if (err) throw err; 
-        });
-    }   
+    let errors = [];
 
-    let allowComments = true;
-    if (req.body.allowComments) {
-        allowComments = true;
-    } else {
-        allowComments = false;
+    if (!req.body.title) {
+        errors.push({ title: 'title is required' });
     }
 
-    const newPost = new Post({
-        title: req.body.title,
-        status: req.body.status,
-        allowComments: allowComments,
-        body: req.body.body,
-        file: fileName,
-    });
+    if (!req.body.body) {
+        errors.push({ body: 'body is required' });
+    }
 
-    newPost.save().then((result) => {
-        res.redirect('/admin/posts');
-    }).catch((err) => {
-        console.log(err);
-    });
+    if (!req.body.allowComments) {
+        errors.push({ allowComments: 'Allow Comments is required' });
+    }
+
+    if (errors.length > 0) {
+        res.render('admin/posts/create', {
+            errors: errors
+        });
+    } else {
+        let fileName = "default.jpg";
+        if (!isEmpty(req.files)) {
+            let file = req.files.file;
+            fileName = Date.now()+'-'+file.name;
+            file.mv("./public/uploads/" + fileName, (err) => {
+                if (err) throw err; 
+            });
+        }   
+
+        let allowComments = true;
+        if (req.body.allowComments) {
+            allowComments = true;
+        } else {
+            allowComments = false;
+        }
+
+        const newPost = new Post({
+            title: req.body.title,
+            status: req.body.status,
+            allowComments: allowComments,
+            body: req.body.body,
+            file: fileName,
+        });
+
+        newPost.save().then((result) => {
+            res.redirect('/admin/posts');
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
 });
 
 router.get('/edit/:id', (req, res) => {
