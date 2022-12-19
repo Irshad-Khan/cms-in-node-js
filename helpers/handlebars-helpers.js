@@ -1,3 +1,5 @@
+const moment = require('moment');
+
 module.exports = {
     /**
      * It return all options dynami. It search value and then add
@@ -13,5 +15,8 @@ module.exports = {
     },
     formatIndex: function(index)  {
         return index+1;
+    },
+    generateTime: function (date, format) {
+        return moment(date).format(format);
     }
 }
