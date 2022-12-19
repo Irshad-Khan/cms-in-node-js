@@ -78,6 +78,7 @@ router.post('/create', (req, res) => {
         });
 
         newPost.save().then((result) => {
+            req.flash('success',`Post ${result.title} was created successfully!`);
             res.redirect('/admin/posts');
         }).catch((err) => {
             console.log(err);
@@ -108,7 +109,17 @@ router.put('/edit/:id', (req, res) => {
             post.status = req.body.status;
             post.body = req.body.body;
 
+            if (!isEmpty(req.files)) {
+                let file = req.files.file;
+                fileName = Date.now() + '-' + file.name;
+                post.file = fileName;
+                file.mv("./public/uploads/" + fileName, (err) => {
+                    if (err) throw err; 
+                });
+            }
+            
             post.save().then(updatedPost => {
+                req.flash('success',`Post ${updatedPost.title} was updated successfully!`);
                 res.redirect('/admin/posts');
             });
 
@@ -119,6 +130,7 @@ router.delete('/delete/:id', (req, res) => {
     Post.findOne({ _id: req.params.id })
         .then((post) => {
             fs.unlink(uploadDir + post.file, () => {
+                req.flash('deleted',`Post ${post.title} was deleted successfully!`);
                 post.remove();
                 res.redirect('/admin/posts');
             })

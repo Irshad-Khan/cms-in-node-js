@@ -6,6 +6,8 @@ const exphbs = require('express-handlebars');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const fileUpload = require('express-fileupload');
+const session = require('express-session');
+const flash = require('connect-flash');
 
 /**
  * Use when we get post data from form
@@ -53,6 +55,30 @@ app.engine('handlebars', exphbs.engine({
 }));
 app.set('view engine', 'handlebars');
 
+/**
+ * Session and Flash
+ */
+app.use(session({
+    secret: 'keyboard cat', //It should be any it may be your name etc
+    resave: true,
+    saveUninitialized: true,
+    // cookie: { secure: true }
+}));
+
+app.use(flash());
+
+/**
+ * Local vairbale use middleware
+ */
+app.use((req,res,next) => {
+    res.locals.success = req.flash('success');
+    res.locals.deleted = req.flash('deleted');
+    next();
+});
+
+/**
+ * Routes
+ */
 const homeRoutes = require('./routes/home/index');
 const adminRoutes = require('./routes/admin/index');
 const postsRoutes = require('./routes/admin/posts');
