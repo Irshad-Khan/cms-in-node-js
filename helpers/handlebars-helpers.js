@@ -16,7 +16,7 @@ module.exports = {
     formatIndex: function(index)  {
         return index+1;
     },
-    generateTime: function (date, format) {
+    generateDate: function (date, format) {
         return moment(date).format(format);
     }
 }

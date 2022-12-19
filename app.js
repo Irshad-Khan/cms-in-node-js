@@ -47,11 +47,11 @@ app.use(methodOverride('_method'));
  * Here we setup our layout of file. When we call render function it look
  * into views fodler and goto layout file fetch home file
  */
-const { select,formatIndex,generateTime } = require('./helpers/handlebars-helpers');
+const { select,formatIndex,generateDate } = require('./helpers/handlebars-helpers');
 const { showError } = require('./helpers/validation-helpers');
 app.engine('handlebars', exphbs.engine({
     defaultLayout: 'home',
-    helpers: { select: select, formatIndex: formatIndex, showError: showError, generateTime:generateTime }
+    helpers: { select: select, formatIndex: formatIndex, showError: showError, generateDate:generateDate }
 }));
 app.set('view engine', 'handlebars');
 
