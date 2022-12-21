@@ -1,0 +1,12 @@
+<h1>Update Category</h1>
+<hr>
+<form method="post" action="/admin/categories/edit/{{category._id}}?_method=PUT">
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" name="name" class="form-control" id="name" value="{{category.name}}">
+        {{#if errors}}
+        <p class="text-danger">{{showError errors "name"}}</p>
+        {{/if}}
+    </div>
+    <button type="submit" class="btn btn-primary">Update Category</button>
+</form>

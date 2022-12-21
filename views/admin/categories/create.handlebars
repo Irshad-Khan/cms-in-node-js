@@ -1,0 +1,12 @@
+<h1>Create Category</h1>
+<hr>
+<form method="post" action="/admin/categories/create" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" name="name" class="form-control" id="name" placeholder="Enter name">
+        {{#if errors}}
+        <p class="text-danger">{{showError errors "name"}}</p>
+        {{/if}}
+    </div>
+    <button type="submit" class="btn btn-primary">Create Category</button>
+</form>

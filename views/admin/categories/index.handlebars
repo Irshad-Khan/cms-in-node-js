@@ -1,0 +1,39 @@
+<div class="row">
+    <div class="col-md-6">
+        <h1>Categories</h1>
+    </div>
+    <div class="col-md-6 text-right">
+        <a href="/admin/categories/create" class="btn btn-primary">Add</a>
+    </div>
+</div>
+{{> alerts/flash-messages}}
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each categories}}
+        <tr>
+            <th scope="row">{{formatIndex @index }}</th>
+            <th>{{name}}</th>
+            <td>
+                <div class="row">
+                    <div class="col-sm-1">
+                        <a class="btn btn-info" href="/admin/categories/edit/{{_id}}">Edit</a>
+                    </div>
+                    <div class="col-sm-1">
+                        <form action="/admin/categories/delete/{{_id}}?_method=DELETE" method="post">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

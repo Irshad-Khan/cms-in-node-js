@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Post = require('../../models/Post');
+const Category = require('../../models/Category');
 const { faker } = require('@faker-js/faker');
 const { isEmpty, uploadDir } = require('../../helpers/upload-helper');
 const fs = require('fs');
@@ -22,14 +23,18 @@ router.get('/', (req, res) => {
      *  is a proper plain javascript object. This can be done in Mongoose,
      *  by calling toJSON() or toObject
      */
-    Post.find({}).then((posts) => {
+    Post.find({}).populate('category').then((posts) => {
         res.render('admin/posts',
             { posts: posts.map(post => post.toJSON()) });
     });
 });
 
 router.get('/create', (req, res) => {
-    res.render('admin/posts/create');
+    Category.find({}).then(categories => {
+        res.render('admin/posts/create', {
+            categories: categories.map(category => category.toJSON())
+        });
+    });
 });
 
 router.post('/create', (req, res) => {
@@ -75,6 +80,7 @@ router.post('/create', (req, res) => {
             allowComments: allowComments,
             body: req.body.body,
             file: fileName,
+            category: req.body.category,
         });
 
         newPost.save().then((result) => {
@@ -88,8 +94,11 @@ router.post('/create', (req, res) => {
 
 router.get('/edit/:id', (req, res) => {
     Post.findOne({ _id: req.params.id }).then((post) => {
-        res.render('admin/posts/edit', {
-            post: post.toJSON()
+        Category.find({}).then(categories => { 
+            res.render('admin/posts/edit', {
+                post: post.toJSON(),
+                categories: categories.map(category => category.toJSON())
+            }); 
         });
     });
 });
@@ -108,6 +117,7 @@ router.put('/edit/:id', (req, res) => {
             post.allowComments = allowComments;
             post.status = req.body.status;
             post.body = req.body.body;
+            post.category = req.body.category;
 
             if (!isEmpty(req.files)) {
                 let file = req.files.file;

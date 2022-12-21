@@ -82,9 +82,11 @@ app.use((req,res,next) => {
 const homeRoutes = require('./routes/home/index');
 const adminRoutes = require('./routes/admin/index');
 const postsRoutes = require('./routes/admin/posts');
+const categoriesRoutes = require('./routes/admin/categories');
 app.use('/',homeRoutes);
 app.use('/admin',adminRoutes);
 app.use('/admin/posts',postsRoutes);
+app.use('/admin/categories',categoriesRoutes);
 
 
 
