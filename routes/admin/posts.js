@@ -5,6 +5,7 @@ const Category = require('../../models/Category');
 const { faker } = require('@faker-js/faker');
 const { isEmpty, uploadDir } = require('../../helpers/upload-helper');
 const fs = require('fs');
+const { isAuthenticate } = require('../../helpers/authentication');
 
 
 
@@ -12,7 +13,7 @@ const fs = require('fs');
  * This code is overide default layout. It mean when url with admin
  * comes it should use admin layout
  */
-router.all('/*', (req, res, next) => {
+router.all('/*',isAuthenticate, (req, res, next) => {
     req.app.locals.layout = 'admin';
     next();
 });

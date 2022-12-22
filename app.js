@@ -9,7 +9,7 @@ const fileUpload = require('express-fileupload');
 const session = require('express-session');
 const flash = require('connect-flash');
 const { mongoDbUrl } = require('./config/database');
-
+const passport = require('passport');
 
 /**
  * Use when we get post data from form
@@ -69,12 +69,17 @@ app.use(session({
 
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());  
+
 /**
  * Local vairbale use middleware
  */
-app.use((req,res,next) => {
+app.use((req, res, next) => {
+    res.locals.user = req.user || null; //Get Logedin user
     res.locals.success = req.flash('success');
     res.locals.deleted = req.flash('deleted');
+    res.locals.error = req.flash('error');
     next();
 });
 

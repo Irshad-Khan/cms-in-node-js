@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Category = require('../../models/Category');
+const { isAuthenticate } = require('../../helpers/authentication');
 
 
 
@@ -8,7 +9,7 @@ const Category = require('../../models/Category');
  * This code is overide default layout. It mean when url with admin
  * comes it should use admin layout
  */
-router.all('/*', (req, res, next) => {
+router.all('/*',isAuthenticate, (req, res, next) => {
     req.app.locals.layout = 'admin';
     next();
 });
