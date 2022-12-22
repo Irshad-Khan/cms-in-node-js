@@ -1,0 +1,45 @@
+<div class="row">
+    <div class="col-md-6">
+        <h1>Users</h1>
+    </div>
+    <div class="col-md-6 text-right">
+        <a href="/admin/users/create" class="btn btn-primary">Add</a>
+    </div>
+</div>
+{{> alerts/flash-messages}}
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Id</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each users}}
+            <tr>
+                <th scope="row">{{formatIndex @index }}</th>
+                <td>{{_id}}</td>
+                <td>{{firstName}}</td>
+                <td>{{lastName}}</td>
+                <td>{{email}}</td>
+                <td>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <a class="btn btn-info" href="/admin/users/edit/{{_id}}">Edit</a>
+                        </div>
+                        <div class="col-sm-3">
+                            <form action="/admin/users/delete/{{_id}}?_method=DELETE" method="post">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                </td>
+            </tr>
+        {{/each}}
+    </tbody>
+</table>

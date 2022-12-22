@@ -8,11 +8,17 @@
                         <label for="exampleInputName">First name</label>
                         <input name="firstName" class="form-control" id="exampleInputName" type="text"
                             aria-describedby="nameHelp" placeholder="Enter first name">
+                        {{#if errors}}
+                            <p class="text-danger">{{showError errors "firstName"}}</p>
+                        {{/if}}
                     </div>
                     <div class="col-md-6">
                         <label for="exampleInputLastName">Last name</label>
                         <input name="lastName" class="form-control" id="exampleInputLastName" type="text"
                             aria-describedby="nameHelp" placeholder="Enter last name">
+                        {{#if errors}}
+                            <p class="text-danger">{{showError errors "lastName"}}</p>
+                        {{/if}}
                     </div>
                 </div>
             </div>
@@ -20,6 +26,9 @@
                 <label for="exampleInputEmail1">Email address</label>
                 <input name="email" class="form-control" id="exampleInputEmail1" type="email"
                     aria-describedby="emailHelp" placeholder="Enter email">
+                {{#if errors}}
+                    <p class="text-danger">{{showError errors "email"}}</p>
+                {{/if}}
             </div>
             <div class="form-group">
                 <div class="form-row">
@@ -27,6 +36,9 @@
                         <label for="exampleInputPassword1">Password</label>
                         <input name="password" class="form-control" id="exampleInputPassword1" type="password"
                             placeholder="Password">
+                        {{#if errors}}
+                            <p class="text-danger">{{showError errors "password"}}</p>
+                        {{/if}}
                     </div>
                     <div class="col-md-6">
                         <label for="exampleConfirmPassword">Confirm password</label>

@@ -1,0 +1,35 @@
+<h1>Create User</h1>
+<hr>
+<form method="post" action="/admin/users/create">
+    <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input type="text" name="firstName" class="form-control" id="firstName"
+            placeholder="Enter First Name">
+        {{#if errors}}
+            <p class="text-danger">{{showError errors "firstName"}}</p>
+        {{/if}}
+    </div>
+    <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input type="text" name="lastName" class="form-control" id="lastName" placeholder="Enter Last Name">
+        {{#if errors}}
+        <p class="text-danger">{{showError errors "lastName"}}</p>
+        {{/if}}
+    </div>
+    <div class="form-group">
+        <label for="email">Email Name</label>
+        <input type="email" name="email" class="form-control" id="email" placeholder="Enter Email Name">
+        {{#if errors}}
+        <p class="text-danger">{{showError errors "email"}}</p>
+        {{/if}}
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" name="password" class="form-control" id="password" placeholder="Enter Password">
+        {{#if errors}}
+        <p class="text-danger">{{showError errors "password"}}</p>
+        {{/if}}
+    </div>
+   
+    <button type="submit" class="btn btn-primary">Create User</button>
+</form>

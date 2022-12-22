@@ -1,0 +1,34 @@
+<h1>Update User</h1>
+<hr>
+<form method="post" action="/admin/users/edit/{{user._id}}?_method=PUT">
+    <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input type="text" name="firstName" class="form-control" id="firstName" value="{{user.firstName}}">
+        {{#if errors}}
+        <p class="text-danger">{{showError errors "firstName"}}</p>
+        {{/if}}
+    </div>
+    <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input type="text" name="lastName" class="form-control" id="lastName"  value="{{user.lastName}}">
+        {{#if errors}}
+        <p class="text-danger">{{showError errors "lastName"}}</p>
+        {{/if}}
+    </div>
+    <div class="form-group">
+        <label for="email">Email Name</label>
+        <input type="email" name="email" class="form-control" id="email"  value="{{user.email}}">
+        {{#if errors}}
+        <p class="text-danger">{{showError errors "email"}}</p>
+        {{/if}}
+    </div>
+    <div class="form-group">
+        <label for="password">New Password</label>
+        <input type="password" name="password" class="form-control" id="password" placeholder="Enter New Password">
+        {{#if errors}}
+        <p class="text-danger">{{showError errors "password"}}</p>
+        {{/if}}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update User</button>
+</form>

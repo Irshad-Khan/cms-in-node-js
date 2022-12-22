@@ -8,6 +8,8 @@ const methodOverride = require('method-override');
 const fileUpload = require('express-fileupload');
 const session = require('express-session');
 const flash = require('connect-flash');
+const { mongoDbUrl } = require('./config/database');
+
 
 /**
  * Use when we get post data from form
@@ -19,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
  * Use to connect database
  */
 mongoose.set('strictQuery', true);
-mongoose.connect('mongodb://localhost:27017/cms').then((result) => {
+mongoose.connect(mongoDbUrl).then((result) => {
     console.log("Mongo DB Connected");
 }).catch((err) => {
     console.log(err);
@@ -83,10 +85,12 @@ const homeRoutes = require('./routes/home/index');
 const adminRoutes = require('./routes/admin/index');
 const postsRoutes = require('./routes/admin/posts');
 const categoriesRoutes = require('./routes/admin/categories');
+const usersRoutes = require('./routes/admin/users');
 app.use('/',homeRoutes);
 app.use('/admin',adminRoutes);
 app.use('/admin/posts',postsRoutes);
 app.use('/admin/categories',categoriesRoutes);
+app.use('/admin/users',usersRoutes);
 
 
 
