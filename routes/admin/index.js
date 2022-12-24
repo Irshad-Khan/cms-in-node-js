@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const { isAuthenticate } = require('../../helpers/authentication');
+const Post = require('../../models/Post');
+const Comment = require('../../models/Comment');
+const Category = require('../../models/Category');
+const User = require('../../models/User');
 
 
 /**
@@ -13,7 +17,20 @@ router.all('/*',isAuthenticate, (req, res, next) => {
 });
 
 router.get('/', (req, res) => {
-    res.render('admin/index');
+    Post.count().then(postCount => {
+        Comment.count().then(commentCount => {
+            Category.count().then(categoryCount => {
+                User.count().then(userCount => {
+                    res.render('admin/index', {
+                    postCount: postCount,
+                    commentCount: commentCount,
+                    categoryCount: categoryCount,
+                    userCount: userCount
+                });
+                });
+            });
+        })
+    });
 });
 
 module.exports = router;
