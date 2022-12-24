@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const URLSlugs = require('mongoose-url-slugs');
 
 const Schema = mongoose.Schema;
 
@@ -17,8 +18,13 @@ const CommentSchema = new Schema({
     },
     approvedComment: {
         type: Boolean
+    },
+    slug: {
+      type: String  
     }
 
 });
+
+CommentSchema.plugin(URLSlugs('body', { field: 'slug' }));
 
 module.exports = mongoose.model('comments', CommentSchema);

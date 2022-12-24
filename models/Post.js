@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const URLSlugs = require('mongoose-url-slugs');
 
 const Schema = mongoose.Schema;
 
@@ -7,7 +8,9 @@ const PostSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'users'  
     },
-
+    slug: {
+      type: String  
+    },
     category: {
         type: Schema.Types.ObjectId,
         ref: 'categories'  
@@ -41,5 +44,7 @@ const PostSchema = new Schema({
     }]
 
 });
+
+PostSchema.plugin(URLSlugs('title', { field: 'slug' }));
 
 module.exports = mongoose.model('posts', PostSchema);

@@ -145,8 +145,8 @@ router.post('/register', (req, res) => {
     }
 });
 
-router.get('/post/:id', (req, res) => {
-    Post.findOne({ _id: req.params.id }).populate('user').populate({ path: 'comments', match: {approvedComment: true}, populate:{path: 'user', model: 'users'}}).then(post => {
+router.get('/post/:slug', (req, res) => {
+    Post.findOne({ slug: req.params.slug }).populate('user').populate({ path: 'comments', match: {approvedComment: true}, populate:{path: 'user', model: 'users'}}).then(post => {
          Category.find({}).then(categories => {
             res.render('home/post', {
                 post: post.toJSON(),
