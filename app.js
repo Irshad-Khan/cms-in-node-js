@@ -91,11 +91,16 @@ const adminRoutes = require('./routes/admin/index');
 const postsRoutes = require('./routes/admin/posts');
 const categoriesRoutes = require('./routes/admin/categories');
 const usersRoutes = require('./routes/admin/users');
+const profileRoute = require('./routes/admin/profile');
+const commentsRoute = require('./routes/admin/comments');
+
 app.use('/',homeRoutes);
 app.use('/admin',adminRoutes);
 app.use('/admin/posts',postsRoutes);
 app.use('/admin/categories',categoriesRoutes);
 app.use('/admin/users',usersRoutes);
+app.use('/admin/profile',profileRoute);
+app.use('/admin/comments',commentsRoute);
 
 
 

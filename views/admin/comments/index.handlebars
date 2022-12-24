@@ -1,0 +1,42 @@
+<div class="row">
+    <div class="col-md-6">
+        <h1>Comments</h1>
+    </div>
+    <div class="col-md-6 text-right">
+        <a href="/admin/comments/create" class="btn btn-primary">Add</a>
+    </div>
+</div>
+{{> alerts/flash-messages}}
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Id</th>
+            <th scope="col">User Name</th>
+            <th scope="col">Date</th>
+            <th scope="col">Comment</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each comments}}
+        <tr>
+            <th scope="row">{{formatIndex @index }}</th>
+            <td>{{_id}}</td>
+            <td>{{user.firstName}}</td>
+            <td>{{generateDate date "MMMM Do, YYYY"}}</td>
+            <td>{{body}}</td>
+            <td>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <form action="/admin/comments/delete/{{_id}}?_method=DELETE" method="post">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

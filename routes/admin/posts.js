@@ -82,6 +82,7 @@ router.post('/create', (req, res) => {
             body: req.body.body,
             file: fileName,
             category: req.body.category,
+            user: req.user._id
         });
 
         newPost.save().then((result) => {
@@ -114,6 +115,7 @@ router.put('/edit/:id', (req, res) => {
                 allowComments = false;
             }
 
+            post.user = req.user._id;
             post.title = req.body.title;
             post.allowComments = allowComments;
             post.status = req.body.status;
@@ -139,8 +141,14 @@ router.put('/edit/:id', (req, res) => {
 
 router.delete('/delete/:id', (req, res) => {
     Post.findOne({ _id: req.params.id })
+        .populate('comments')
         .then((post) => {
             fs.unlink(uploadDir + post.file, () => {
+                if (!post.comments.length < 1) {
+                    post.comments.forEach(comment => {
+                        comment.remove(); 
+                    });
+                }
                 req.flash('deleted',`Post ${post.title} was deleted successfully!`);
                 post.remove();
                 res.redirect('/admin/posts');
