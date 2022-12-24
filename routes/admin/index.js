@@ -17,20 +17,44 @@ router.all('/*',isAuthenticate, (req, res, next) => {
 });
 
 router.get('/', (req, res) => {
-    Post.count().then(postCount => {
-        Comment.count().then(commentCount => {
-            Category.count().then(categoryCount => {
-                User.count().then(userCount => {
-                    res.render('admin/index', {
-                    postCount: postCount,
-                    commentCount: commentCount,
-                    categoryCount: categoryCount,
-                    userCount: userCount
-                });
-                });
-            });
-        })
+
+    /**
+     * Best Method
+     */
+    const promises = [
+        Post.count().exec(),
+        Category.count().exec(),
+        Comment.count().exec(),
+        User.count().exec(),
+    ];
+
+    Promise.all(promises).then(([postCount, categoryCount, commentCount, userCount]) => {
+        res.render('admin/index', {
+            postCount: postCount,
+            commentCount: commentCount,
+            categoryCount: categoryCount,
+            userCount: userCount
+        }); 
     });
+
+    /**
+     * Method 1
+     */
+    // Post.count().then(postCount => {
+    //     Comment.count().then(commentCount => {
+    //         Category.count().then(categoryCount => {
+    //             User.count().then(userCount => {
+    //                 res.render('admin/index', {
+    //                 postCount: postCount,
+    //                 commentCount: commentCount,
+    //                 categoryCount: categoryCount,
+    //                 userCount: userCount
+    //             });
+    //             });
+    //         });
+    //     })
+    // });
+
 });
 
 module.exports = router;

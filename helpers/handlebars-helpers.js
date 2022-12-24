@@ -54,5 +54,8 @@ module.exports = {
         }
 
         return output;
+    },
+    currentYear: function () {
+        return moment(Date.now()).format('YYYY');
     }
 }
