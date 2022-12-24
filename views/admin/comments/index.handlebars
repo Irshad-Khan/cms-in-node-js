@@ -15,6 +15,7 @@
             <th scope="col">User Name</th>
             <th scope="col">Date</th>
             <th scope="col">Comment</th>
+            <th scope="col">Status</th>
             <th scope="col">Action</th>
         </tr>
     </thead>
@@ -26,6 +27,7 @@
             <td>{{user.firstName}}</td>
             <td>{{generateDate date "MMMM Do, YYYY"}}</td>
             <td>{{body}}</td>
+            <td><input data-id="{{_id}}" {{#if approvedComment}}checked{{/if}} type="checkbox" name="approvedCheckbox"></td>
             <td>
                 <div class="row">
                     <div class="col-sm-3">
